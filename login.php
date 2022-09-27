@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<div class="container">
 		<h1>Login</h1>
 		<p>
-			Bitte melden Sie sich mit Benutzernamen und Passwort an.
+			Bitte melden Sie sich mit Benutzernamen und Passwort an oder registrieren Sie sich hier <a class="nav-link" href="register.php">Registrierung</a>.
 		</p>
 		<?php
 		// fehlermeldung oder nachricht ausgeben
