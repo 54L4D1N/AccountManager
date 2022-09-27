@@ -10,9 +10,9 @@ $firstname = $lastname = $email = $username = '';
 // Wurden Daten mit "POST" gesendet?
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   // Ausgabe des gesamten $_POST Arrays zum debuggen
-  echo "<pre>";
-  print_r($_POST);
-  echo "</pre>";
+  //echo "<pre>";
+  //print_r($_POST);
+  //echo "</pre>";
 
   if (isset($_POST['firstname'])) {
     $firstname = trim($_POST['firstname']);
@@ -88,7 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <div class="container">
     <h1>Registrierung</h1>
     <p>
-      Bitte registrieren Sie sich, damit Sie diesen Dienst benutzen können.
+      Bitte registrieren Sie sich, damit Sie diesen Dienst benutzen können
+      oder melden Sie sich direkt über den Link an <a href="login.php">Login</a>
     </p>
     <?php
     // Ausgabe der Fehlermeldungen

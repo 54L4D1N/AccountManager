@@ -1,9 +1,9 @@
 <?php
 // Variabeln deklarieren
 const host = 'localhost'; // host
-const username = 'valentin'; // username
-const password = 'asdf'; // password
-const database = '151_users'; // database
+const username = 'work'; // username
+const password = 'work1234'; // password
+const database = 'accountManager'; // database
 
 // mit der Datenbank verbinden
 $mysqli = new mysqli(host, username, password, database);
