@@ -15,5 +15,3 @@ function getRandomPassword(int $chars = 8)
     }
     return $password;
 }
-
-echo getRandomPassword(18);
