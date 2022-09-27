@@ -8,9 +8,9 @@ $message = '';
 
 // Formular wurde gesendet und Besucher ist noch nicht angemeldet.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	echo "<pre>";
-	print_r($_POST);
-	echo "</pre>";
+	//echo "<pre>";
+	//print_r($_POST);
+	//echo "</pre>";
 
 	$username = "";
 	// username
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// kein fehler
 	if (empty($error)) {
 
-		$query = "SELECT username, password FROM users WHERE username = ?";
+		$query = "SELECT id, username, password FROM users WHERE username = ?";
 		$stmt = $mysqli->prepare($query);
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					session_start();
 					$_SESSION['loggedin'] = true;
 					$_SESSION['username'] = $username;
+					$_SESSION['id'] = $row['id'];
 					session_regenerate_id(true);
 					header("location: admin.php");
 				}
