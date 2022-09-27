@@ -21,7 +21,11 @@
    mysql -u root
    mysql -u root -p accountManager < accountManager.sql
    ```
-3. Start Mysql DB and Apache Server
+3. Import SQL User
+   ```sh
+   mysql -u root -p < user.sql
+   ```
+5. Start Mysql DB and Apache Server
    ```js
    Visit http://localhost/accountManager/
    ```
