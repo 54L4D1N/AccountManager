@@ -34,6 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $username = trim($_POST['username']);
     }
 
+    if (isset($_POST['password'])) {
+        $password = trim($_POST['password']);
+    }
+
     if (isset($_POST['email'])) {
         $email = trim($_POST['email']);
     }
@@ -91,11 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <body>
 
 <div class="container">
-    <h1>Registrierung</h1>
-    <p>
-        Bitte registrieren Sie sich, damit Sie diesen Dienst benutzen können
-        oder melden Sie sich direkt über den Link an <a href="login.php">Login</a>
-    </p>
+    <h1>Account hinzufuegen</h1>
     <?php
     // Ausgabe der Fehlermeldungen
     if (strlen($error)) {
