@@ -6,6 +6,8 @@ session_start();
 // variablen initialisieren
 $error = $message = '';
 $userid = $_SESSION['id'];
+$disabled = True;
+$selected = null;
 
 if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
     // Session nicht OK,  Weiterleitung auf Anmeldung
@@ -67,65 +69,56 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
     ?>
 </div>
 <div class="container">
-    <h1>Accounts</h1>
-    <input type="button" onclick="location.pathname='accountManager/addAccount.php'" value="add Account"/>
-    <?php
-    $query = "SELECT * FROM account WHERE userid = ?";
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("i", $userid);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    <form action="edit.php">
+        <h1>Accounts</h1>
+        <input type="button" onclick="location.pathname='accountManager/addAccount.php'" value="add Account"/>
+        <input type="submit" value="edit Account"/>
+        <input type="button" onclick="location.pathname='accountManager/deleteAccount.php'" value="delete Account"/>
+        <?php
+        $query = "SELECT * FROM account WHERE userid = ?";
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param("i", $userid);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    echo "<table class='table'>
-    <thead>
-        <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>name</th>
-            <th scope='col'>firstname</th>
-            <th scope='col'>lastname</th>
-            <th scope='col'>username</th>
-            <th scope='col'>password</th>
-            <th scope='col'>email</th>
-            <th scope='col'>link</th>
-            <th scope='col'>description</th>
-            <th scope='col'>comment</th>
-            <th scope='col'>select</th>
-        </tr>
-    </thead>";
+        echo "<table class='table'>
+        <thead>
+            <tr>
+                <th scope='col'>#</th>
+                <th scope='col'>name</th>
+                <th scope='col'>firstname</th>
+                <th scope='col'>lastname</th>
+                <th scope='col'>username</th>
+                <th scope='col'>password</th>
+                <th scope='col'>email</th>
+                <th scope='col'>link</th>
+                <th scope='col'>description</th>
+                <th scope='col'>comment</th>
+                <th scope='col'>select</th>
+            </tr>
+        </thead>";
 
-    echo "<tbody>";
-    while ($row = $result->fetch_assoc()) {
-        echo "
-        <tr>
-            <th scope='row'>1</th>
-            <td>" . $row['name'] . "</td>
-            <td>" . $row['firstname'] . "</td>
-            <td>" . $row['lastname'] . "</td>
-            <td>" . $row['username'] . "</td>
-            <td>" . $row['password'] . "</td>
-            <td>" . $row['email'] . "</td>
-            <td>" . $row['link'] . "</td>
-            <td>" . $row['description'] . "</td>
-            <td>" . $row['comment'] . "</td>
-            <td align='center'><input type='radio' name='select' value=".$_SESSION['id']."></td>
-        </tr>";
-
-//        echo "<tr>";
-//        echo "<td>" . $row['name'] . "</td>";
-//        echo "<td>" . $row['firstname'] . "</td>";
-//        echo "<td>" . $row['lastname'] . "</td>";
-//        echo "<td>" . $row['username'] . "</td>";
-//        echo "<td>" . $row['password'] . "</td>";
-//        echo "<td>" . $row['email'] . "</td>";
-//        echo "<td>" . $row['link'] . "</td>";
-//        echo "<td>" . $row['description'] . "</td>";
-//        echo "<td>" . $row['comment'] . "</td>";
-//        echo "</tr>";
-    }
-    echo "</tbody>";
-    echo "</table>";
-
-    ?>
+        echo "<tbody>";
+        while ($row = $result->fetch_assoc()) {
+            echo "
+            <tr>
+                <th scope='row'>1</th>
+                <td>" . $row['name'] . "</td>
+                <td>" . $row['firstname'] . "</td>
+                <td>" . $row['lastname'] . "</td>
+                <td>" . $row['username'] . "</td>
+                <td>" . $row['password'] . "</td>
+                <td>" . $row['email'] . "</td>
+                <td>" . $row['link'] . "</td>
+                <td>" . $row['description'] . "</td>
+                <td>" . $row['comment'] . "</td>
+                <td align='center'><input type='radio' id='select' name='select' checked value=".$row['id']."></td>
+            </tr>";
+        }
+        echo "</tbody>";
+        echo "</table>";
+        ?>
+    </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
