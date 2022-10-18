@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
   // keine Fehler vorhanden
   if (empty($error)) {
-    $query = "INSERT INTO users (firstname, lastname, email, username, password) VALUES(?, ?, ?, ?, ?)";
+    $query = "INSERT INTO user (firstname, lastname, email, username, password) VALUES(?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
     $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $stmt->bind_param("sssss", $firstname, $lastname, $email, $username, $passwordHash);

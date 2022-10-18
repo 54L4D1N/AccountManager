@@ -42,9 +42,6 @@ if(!isset($_GET['id']) || !is_int($_GET['id']))
                 <?php
                 // TODO - wenn Session personalisiert ist - Link zu Logout anzeigen
                 echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-                // TODO - wenn Session nicht personalisiert - Link zu Login / Register anzeigen
-                echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
-                echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
                 ?>
             </ul>
         </div>

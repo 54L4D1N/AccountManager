@@ -40,7 +40,6 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-
                 <?php
                 if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
                     echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
@@ -66,7 +65,7 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
     </div>
     <div class="container">
         <h1>Accounts</h1>
-        <input type="button" onclick="location.pathname='addAccount.php'" value="add Account"/>
+        <input type="button" onclick="location.pathname='accountManager/addAccount.php'" value="add Account"/>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
   </body>

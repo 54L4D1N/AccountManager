@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// kein fehler
 	if (empty($error)) {
 
-		$query = "SELECT username, password FROM users WHERE username = ?";
+		$query = "SELECT id, username, password FROM users WHERE username = ?";
 		$stmt = $mysqli->prepare($query);
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					session_start();
 					$_SESSION['loggedin'] = true;
 					$_SESSION['username'] = $username;
+					$_SESSION['id'] = $row['id'];
 					session_regenerate_id(true);
 					header("location: admin.php");
 				}
@@ -87,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<div class="container">
 		<h1>Login</h1>
 		<p>
-			Bitte melden Sie sich mit Benutzernamen und Passwort an oder registrieren Sie sich hier <a class="nav-link" href="register.php">Registrierung</a>.
+			Bitte melden Sie sich mit Benutzernamen und Passwort an oder registrieren Sie sich hier <a href="register.php">Registrierung</a>
 		</p>
 		<?php
 		// fehlermeldung oder nachricht ausgeben
