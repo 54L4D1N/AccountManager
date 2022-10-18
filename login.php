@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// kein fehler
 	if (empty($error)) {
 
-		$query = "SELECT id, username, password FROM users WHERE username = ?";
+		$query = "SELECT id, username, password FROM user WHERE username = ?";
 		$stmt = $mysqli->prepare($query);
 		$stmt->bind_param("s", $username);
 		$stmt->execute();

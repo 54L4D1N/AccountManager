@@ -5,8 +5,9 @@ session_start();
 // Initialisierung
 $error = '';
 $message = "";
-$name = $firstname = $lastname = $username = $email = $link = $description = $comment = '';
+$name = $firstname = $lastname = $username = $email = $link = $description = $comment = $password = '';
 $account = array();
+$userid = $_SESSION['id'];
 
 // Wurden Daten mit "POST" gesendet?
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -23,39 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($_POST['firstname'])) {
         $firstname = trim($_POST['firstname']);
-        if (empty($firstname) || strlen($firstname) > 30)
-            $error .= "Vorname ist inkorrekt!\n";
     }
 
     if (isset($_POST['lastname'])) {
         $lastname = trim($_POST['lastname']);
-        if (strlen($lastname) > 30)
-            $error .= "Nachname ist inkorrekt!\n";
     }
 
     if (isset($_POST['username'])) {
         $username = trim($_POST['username']);
-        if (!preg_match("/(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{6,30}/", $username) || strlen($username) > 30)
-            $error .= "Username ist inkorrekt!\n";
-    }
-
-    if (isset($_POST['password'])) {
-        if (!preg_match('/(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/', $_POST['password']) === 0 || strlen($_POST['password']) > 255)
-            $error .= "Password ist inkorrekt!\n";
     }
 
     if (isset($_POST['email'])) {
         $email = trim($_POST['email']);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            $error .= "Email address '$email' is considered invalid.\n";
-        if (strlen($email) > 100)
-            $error .= "Email ist inkorrekt!\n";
     }
 
     if (isset($_POST['link'])) {
         $link = trim($_POST['link']);
-        if (strlen($link) > 255)
-            $error .= "Link ist inkorrekt!\n";
     }
 
     if (isset($_POST['description'])) {
@@ -69,10 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // TODO
     // keine Fehler vorhanden
     if (empty($error)) {
-        $query = "INSERT INTO account (firstname, lastname, email, username, password) VALUES(?, ?, ?, ?, ?)";
+        $query = "INSERT INTO account (name, firstname, lastname, username, password, email, link, description, comment, userid) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
-        $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $stmt->bind_param("sssss", $firstname, $lastname, $email, $username, $passwordHash);
+        $stmt->bind_param("sssssssssi", $name, $firstname, $lastname, $username, $password, $email, $link, $description, $comment, $userid);
         try {
             $stmt->execute();
             $message = "Keine Fehler vorhanden";
@@ -80,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $stmt->close();
             $mysqli->close();
 
-            header("location: login.php");
+            header("location: admin.php");
         } catch (mysqli_sql_exception $exception) {
-            $error .= "Benutzername existiert bereits!\n";
+            $error .= "ERROR!\n";
 
             $stmt->close();
             $mysqli->close();
@@ -136,11 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </div>
         <div class="form-group">
             <label for="username">Benutzername</label>
-            <input type="text" name="username" class="form-control" id="username" maxlength="30" pattern="(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]{6,}" value="<?php echo htmlspecialchars($username) ?>" placeholder="Gross- und Keinbuchstaben, min 6 Zeichen.">
+            <input type="text" name="username" class="form-control" id="username" maxlength="30" value="<?php echo htmlspecialchars($username) ?>" placeholder="Gross- und Keinbuchstaben, min 6 Zeichen.">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" class="form-control" id="password" maxlength="255" pattern="(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" placeholder="Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen, keine Umlaute">
+            <input type="password" name="password" class="form-control" id="password" maxlength="255" placeholder="Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen, keine Umlaute">
         </div>
         <div class="form-group">
             <label for="email">Email</label>
