@@ -54,8 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $comment = trim($_POST['comment']);
     }
 
-    // TODO
-    // keine Fehler vorhanden
     if (empty($error)) {
         $query = "INSERT INTO account (name, firstname, lastname, username, password, email, link, description, comment, userid) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
