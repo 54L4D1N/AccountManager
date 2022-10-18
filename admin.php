@@ -112,7 +112,7 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
                 <td>" . $row['link'] . "</td>
                 <td>" . $row['description'] . "</td>
                 <td>" . $row['comment'] . "</td>
-                <td align='center'><input type='radio' id='select' name='select' checked value=".$row['id']."></td>
+                <td align='center'><input type='radio' id='select' name='select' value=".$row['id']."></td>
             </tr>";
         }
         echo "</tbody>";
