@@ -1,4 +1,6 @@
 <?php
+require "db_connector.inc.php";
+
 session_start();
 
 // variablen initialisieren
@@ -7,12 +9,81 @@ $error = $message = '';
 if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
     // Session nicht OK,  Weiterleitung auf Anmeldung
     $error .= "Sie sind nicht angemeldet, melden Sie sich bitte auf der  <a href='login.php'>Login-Seite</a> an.";
-    //  Script beenden
 } else
     $message .= "Sie sind nun angemeldet: $_SESSION[username]";
 
-if(!isset($_GET['id']) || !is_int($_GET['id']))
+if (!isset($_GET['id']))
     $error .= "Es wurde kein Konto ausgewählt!";
+
+// Wurden Daten mit "POST" gesendet?
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    // Ausgabe des gesamten $_POST Arrays zum debuggen
+    //echo "<pre>";
+    //print_r($_POST);
+    //echo "</pre>";
+
+    $name = $firstname = $lastname = $username = $email = $link = $description = $comment = $password = '';
+
+    if (isset($_POST['name'])) {
+        $name = trim($_POST['name']);
+        if (empty($name) || strlen($name) > 30)
+            $error .= "Name ist inkorrekt!\n";
+    }
+
+    if (isset($_POST['firstname'])) {
+        $firstname = trim($_POST['firstname']);
+    }
+
+    if (isset($_POST['lastname'])) {
+        $lastname = trim($_POST['lastname']);
+    }
+
+    if (isset($_POST['username'])) {
+        $username = trim($_POST['username']);
+    }
+
+    if (isset($_POST['password'])) {
+        $password = trim($_POST['password']);
+    }
+
+    if (isset($_POST['email'])) {
+        $email = trim($_POST['email']);
+    }
+
+    if (isset($_POST['link'])) {
+        $link = trim($_POST['link']);
+    }
+
+    if (isset($_POST['description'])) {
+        $description = trim($_POST['description']);
+    }
+
+    if (isset($_POST['comment'])) {
+        $comment = trim($_POST['comment']);
+    }
+
+    // TODO
+    // keine Fehler vorhanden
+    if (empty($error)) {
+        $query = "UPDATE account SET name = ?, firstname = ?, lastname = ?, username = ?, password = ?, email = ?, link = ?, description = ?, comment = ? WHERE id = ? and userid = ?";
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param("sssssssssii", $name, $firstname, $lastname, $username, $password, $email, $link, $description, $comment, $_SESSION['id'], $_GET['id']);
+        try {
+            $stmt->execute();
+            $message = "Keine Fehler vorhanden";
+
+            $stmt->close();
+            $mysqli->close();
+
+            header("location: admin.php");
+        } catch (mysqli_sql_exception $exception) {
+            $error .= "ERROR!\n";
+
+            $stmt->close();
+            $mysqli->close();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,16 +126,56 @@ if(!isset($_GET['id']) || !is_int($_GET['id']))
         } else if (!empty($message)) {
             echo "<div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
 
-            $query = "SELECT * password FROM account WHERE id = ? and userid = ?";
+            $query = "SELECT * FROM account WHERE id = ? and userid = ?";
             $stmt = $mysqli->prepare($query);
             $stmt->bind_param("ii", $_SESSION['id'], $_GET['id']);
             $stmt->execute();
             if ($res = $stmt->get_result()) {
                 if ($res->num_rows && $row = $res->fetch_assoc()) {
-                    echo "<div>$row</div>";
+                    print_r($row);
+
+                    echo "<form action='' method='post'>
+        <div class='form-group'>
+            <label for='name'>Name</label>
+            <input type='text' name='name' class='form-control' id='name' maxlength='30' value=" . htmlspecialchars($row['name']) . " placeholder='Geben Sie den Applikationsnamen an.'>
+        </div>
+        <div class='form-group'>
+            <label for='firstname'>Vorname</label>
+            <input type='text' name='firstname' class='form-control' id='firstname' maxlength='30' value=" . htmlspecialchars($row['firstname']) . " placeholder='Geben Sie Ihren Vornamen an.'>
+        </div>
+        <div class='form-group'>
+            <label for='lastname'>Nachname</label>
+            <input type='text' name='lastname' class='form-control' id='lastname' maxlength='30' value=" . htmlspecialchars($row['lastname']) . " placeholder='Geben Sie Ihren Nachnamen an'>
+        </div>
+        <div class='form-group'>
+            <label for='username'>Benutzername</label>
+            <input type='text' name='username' class='form-control' id='username' maxlength='30' value=" . htmlspecialchars($row['username']) . " placeholder='Gross- und Keinbuchstaben, min 6 Zeichen.'>
+        </div>
+        <div class='form-group'>
+            <label for='password'>Password</label>
+            <input type='password' name='password' class='form-control' id='password' maxlength='255' value=" . htmlspecialchars($row['password']) . " placeholder='Gross- und Kleinbuchstaben, Zahlen, Sonderzeichen, min. 8 Zeichen, keine Umlaute'>
+        </div>
+        <div class='form-group'>
+            <label for='email'>Email</label>
+            <input type='email' name='email' class='form-control' id='email' maxlength='100' value=" . htmlspecialchars($row['email']) . " placeholder='Geben Sie Ihre Email-Adresse an.'>
+        </div>
+        <div class='form-group'>
+            <label for='link'>Link</label>
+            <input type='text' name='link' class='form-control' id='link' maxlength='255' value=" . htmlspecialchars($row['link']) . " placeholder='Link für Webapplikation.'>
+        </div>
+        <div class='form-group'>
+            <label for='description'>Beschreibung</label>
+            <textarea name='description' class='form-control' id='description' rows='4' >" . htmlspecialchars($row['description']) . "</textarea>
+        </div>
+        <div class='form-group'>
+            <label for='comment'>Kommentar</label>
+            <textarea name='comment' class='form-control' id='comment' rows='2' >".htmlspecialchars($row['comment'])."</textarea>
+        </div>
+        <button type='submit' name='button' value='submit' class='btn btn-info'>Senden</button>
+        <button type='reset' name='button' value='reset' class='btn btn-warning'>Löschen</button>
+    </form>";
                 }
             }
-            $error .= "Es wurde kein Konto gefunden!";
             $stmt->close();
             $mysqli->close();
         }
