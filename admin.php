@@ -5,7 +5,7 @@ session_start();
 
 // variablen initialisieren
 $error = $message = '';
-$userid = $_SESSION['id'];
+$userid = $_SESSION['id'] ?? -1;
 $disabled = True;
 $selected = null;
 
@@ -63,16 +63,13 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
             echo "<div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
         } else if (!empty($message)) {
             echo "<div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
-        }
-        ?>
-    </div>
-    <div class="container">
-        <form action="edit.php">
+
+            echo '<form action="edit.php">
             <h1>Accounts</h1>
-            <input type="button" class="btn btn-secondary" onclick="location.pathname='accountManager/addAccount.php'" value="add Account" />
+            <input type="button" class="btn btn-secondary" onclick="location.pathname="accountManager/addAccount.php"" value="add Account" />
             <input type="submit" class="btn btn-secondary" value="edit Account" />
-            <input type="button" class="btn btn-secondary" onclick="location.pathname='accountManager/deleteAccount.php'" value="delete Account" />
-            <?php
+            <input type="button" class="btn btn-secondary" onclick="location.pathname="accountManager/deleteAccount.php"" value="delete Account" />';
+
             $query = "SELECT * FROM account WHERE userid = ?";
             $stmt = $mysqli->prepare($query);
             $stmt->bind_param("i", $userid);
@@ -114,11 +111,11 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
             }
             echo "</tbody>";
             echo "</table>";
-            ?>
-        </form>
+            echo "</form>";
+        }
+        ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-</body>
 </body>
 
 </html>
