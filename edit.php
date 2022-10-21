@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="admin.php">Session Handling</a>
+        <a class="navbar-brand" href="admin.php">Admin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </div>
         <div class='form-group'>
             <label for='comment'>Kommentar</label>
-            <textarea name='comment' class='form-control' id='comment' rows='2' >".htmlspecialchars($row['comment'])."</textarea>
+            <textarea name='comment' class='form-control' id='comment' rows='2' >" . htmlspecialchars($row['comment']) . "</textarea>
         </div>
         <button type='submit' name='button' value='submit' class='btn btn-info'>Senden</button>
         <button type='reset' name='button' value='reset' class='btn btn-warning'>Löschen</button>

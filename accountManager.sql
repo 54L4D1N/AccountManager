@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 27. Sep 2022 um 15:24
--- Server-Version: 10.4.14-MariaDB
--- PHP-Version: 7.4.11
+-- Erstellungszeit: 21. Okt 2022 um 09:36
+-- Server-Version: 10.4.24-MariaDB
+-- PHP-Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `accountmanager`
 --
+DROP DATABASE IF EXISTS `accountmanager`;
 CREATE DATABASE IF NOT EXISTS `accountmanager` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `accountmanager`;
 
@@ -43,6 +44,14 @@ CREATE TABLE `account` (
   `userid` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `account`
+--
+
+INSERT INTO `account` (`id`, `name`, `firstname`, `lastname`, `username`, `password`, `email`, `link`, `description`, `comment`, `userid`) VALUES
+(2, 'sql', 'valentin', 'anderegg', 'Vanderegg', 'Asdf1234+', 'valentin.anderegg@bbzbl-it.ch', 'blabla', 'blabla', 'asdfj', 2),
+(8, 'Github', 'valentin', 'anderegg', 'VAnderegg', 'Asdf1234+', 'valentin.anderegg@bzbzbl-it.ch', '', '', '', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -63,7 +72,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `username`, `password`, `email`) VALUES
-(1, 'Oliver', 'Saladin', 'OSaladin', '$2y$10$JsLB3C5/l2wI/P8VuUbbBOhMVHks0QhlsKsyOnraKVKISDuhFf1I2', 'o.s@bbzbl-it.ch');
+(1, 'Oliver', 'Saladin', 'OSaladin', '$2y$10$JsLB3C5/l2wI/P8VuUbbBOhMVHks0QhlsKsyOnraKVKISDuhFf1I2', 'o.s@bbzbl-it.ch'),
+(2, 'valentin', 'anderegg', 'Vanderegg', '$2y$10$56m4.Xfd0J6FL3gC5fchvOavssWfrHSZcAHXZGjP3ZwAKH.zEAVx.', 'valentin.anderegg@bbzbl-it.ch');
 
 --
 -- Indizes der exportierten Tabellen
@@ -74,7 +84,6 @@ INSERT INTO `user` (`id`, `firstname`, `lastname`, `username`, `password`, `emai
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
   ADD KEY `userid` (`userid`);
 
 --
@@ -92,13 +101,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT für Tabelle `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints der exportierten Tabellen

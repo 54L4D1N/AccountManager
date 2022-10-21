@@ -30,58 +30,56 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
     <title>Administrationbereich</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/aa92474866.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="admin.php">Session Handling</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="admin.php">Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <?php
-            if (isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
-                echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-            } else {
-                echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
-                echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
-            }
-            ?>
-        </ul>
-    </div>
-</nav>
-<div class="container">
-    <h1>Administrationbereich</h1>
-    <?php
-    // Ausgabe der Fehlermeldungen
-    if (!empty($error)) {
-        echo "<div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
-    } else if (!empty($message)) {
-        echo "<div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
-    }
-    ?>
-</div>
-<div class="container">
-    <form action="edit.php">
-        <h1>Accounts</h1>
-        <input type="button" onclick="location.pathname='accountManager/addAccount.php'" value="add Account"/>
-        <input type="submit" value="edit Account"/>
-        <input type="button" onclick="location.pathname='accountManager/deleteAccount.php'" value="delete Account"/>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <?php
+                if (isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
+                    echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                } else {
+                    echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Administrationbereich</h1>
         <?php
-        $query = "SELECT * FROM account WHERE userid = ?";
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("i", $userid);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // Ausgabe der Fehlermeldungen
+        if (!empty($error)) {
+            echo "<div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
+        } else if (!empty($message)) {
+            echo "<div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
+        }
+        ?>
+    </div>
+    <div class="container">
+        <form action="edit.php">
+            <h1>Accounts</h1>
+            <input type="button" class="btn btn-secondary" onclick="location.pathname='accountManager/addAccount.php'" value="add Account" />
+            <input type="submit" class="btn btn-secondary" value="edit Account" />
+            <input type="button" class="btn btn-secondary" onclick="location.pathname='accountManager/deleteAccount.php'" value="delete Account" />
+            <?php
+            $query = "SELECT * FROM account WHERE userid = ?";
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param("i", $userid);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-        echo "<table class='table'>
+            echo "<table class='table'>
         <thead>
             <tr>
                 <th scope='col'>#</th>
@@ -98,10 +96,9 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
             </tr>
         </thead>";
 
-        echo "<tbody>";
-        while ($row = $result->fetch_assoc()) {
-            echo "
-            <tr>
+            echo "<tbody>";
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>
                 <th scope='row'>1</th>
                 <td>" . $row['name'] . "</td>
                 <td>" . $row['firstname'] . "</td>
@@ -112,17 +109,15 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
                 <td>" . $row['link'] . "</td>
                 <td>" . $row['description'] . "</td>
                 <td>" . $row['comment'] . "</td>
-                <td align='center'><input type='radio' id='select' name='select' value=".$row['id']."></td>
+                <td align='center'><input type='radio' id='select' name='select' value=" . $row['id'] . "></td>
             </tr>";
-        }
-        echo "</tbody>";
-        echo "</table>";
-        ?>
-    </form>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
+            }
+            echo "</tbody>";
+            echo "</table>";
+            ?>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
 </body>
 
