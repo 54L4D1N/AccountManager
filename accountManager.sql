@@ -20,9 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `accountmanager`
 --
-DROP DATABASE IF EXISTS `accountmanager`;
-CREATE DATABASE IF NOT EXISTS `accountmanager` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `accountmanager`;
+DROP DATABASE IF EXISTS `accountManager`;
+CREATE DATABASE IF NOT EXISTS `accountManager` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `accountManager`;
 
 -- --------------------------------------------------------
 
