@@ -10,7 +10,7 @@ $userid = $_SESSION['id'];
 $id = $_GET['select'];
 
 if (!isset($userid) || !isset($_SESSION['loggedin'])) {
-    $error .= "Sie sind nicht eingeloggt!";
+    $error .= "Sie sind nicht angemeldet! <a href='login.php'>Admin</a>";
 } else if (!isset($id)) {
     $error .= "Es wurde kein Konto selektiert!";
 }

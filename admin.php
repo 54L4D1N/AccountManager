@@ -47,6 +47,7 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
                 <?php
                 if (isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
                     echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="editPassword.php">Passwort ändern</a></li>';
                 } else {
                     echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
                     echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
