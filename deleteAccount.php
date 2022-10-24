@@ -3,18 +3,18 @@
 require("./db_connector.inc.php");
 session_start();
 // Initialisierung
-$error = '';
-$message = "";
-$account = array();
-$userid = $_SESSION['id'];
-$id = $_GET['select'];
+$error = $message = $account = $userid = $id = '';
 
-if (!isset($userid) || !isset($_SESSION['loggedin'])) {
+if (!isset($_SESSION['id']) || !isset($_SESSION['loggedin'])) {
     $error .= "Sie sind nicht angemeldet! <a href='login.php'>Admin</a>";
-} else if (!isset($id)) {
-    $error .= "Es wurde kein Konto selektiert!";
+} else if (!isset($_GET['select'])) {
+    $error .= "Es wurde kein Konto selektiert!  <a href='admin.php'>Admin</a>";
 }
+
 else {
+    $account = array();
+    $userid = $_SESSION['id'];
+    $id = $_GET['select'];
     $query = "DELETE FROM account WHERE userid = ? AND id = ?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("ii", $userid, $id);
@@ -57,8 +57,9 @@ else {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <?php
-                if (empty($error)) {
+                if (isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
                     echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="editPassword.php">Passwort ändern</a></li>';
                 } else {
                     echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
                     echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';

@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         if (isset($_POST['name'])) {
             $name = trim($_POST['name']);
-            if (empty($name) || strlen($name) > 30)
-                $error .= "Name ist inkorrekt!\n";
         }
 
         if (isset($_POST['firstname'])) {
@@ -103,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <?php
                 if (isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
                     echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="editPassword.php">Passwort ändern</a></li>';
                 } else {
                     echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
                     echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';

@@ -95,9 +95,11 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
         </thead>";
 
             echo "<tbody>";
+            $numrow = 0;
             while ($row = $result->fetch_assoc()) {
+                $numrow++;
                 echo "<tr>
-                <th scope='row'>1</th>
+                <th scope='row'>" . $numrow . "</th>
                 <td>" . $row['name'] . "</td>
                 <td>" . $row['firstname'] . "</td>
                 <td>" . $row['lastname'] . "</td>

@@ -10,22 +10,17 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
     $error .= "Sie sind nicht angemeldet, melden Sie sich bitte auf der  <a href='login.php'>Login-Seite</a> an.";
 }
 
-if (!isset($_GET['select']))
-    $error .= "Es wurde kein Konto ausgewählt!";
+if (!isset($_GET['select'])) {
+    $error .= "Es wurde kein Konto ausgewählt!  <a href='admin.php'>Admin</a>";
+}
 
 // Wurden Daten mit "POST" gesendet?
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // Ausgabe des gesamten $_POST Arrays zum debuggen
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
 
     $name = $firstname = $lastname = $username = $email = $link = $description = $comment = $password = '';
 
     if (isset($_POST['name'])) {
         $name = trim($_POST['name']);
-        if (empty($name) || strlen($name) > 30)
-            $error .= "Name ist inkorrekt!\n";
     }
 
     if (isset($_POST['firstname'])) {
@@ -109,7 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <?php
-                echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                if (isset($_SESSION['loggedin']) and $_SESSION['loggedin']) {
+                    echo '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="editPassword.php">Passwort ändern</a></li>';
+                } else {
+                    echo '<li class="nav-item"><a class="nav-link" href="register.php">Registrierung</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
+                }
                 ?>
             </ul>
         </div>
@@ -165,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <textarea name='comment' class='form-control' id='comment' rows='2' >" . htmlspecialchars($row['comment']) . "</textarea>
                         </div>
                         <button type='submit' name='button' value='submit' class='btn btn-info'>Senden</button>
-                        <button type='reset' name='button' value='reset' class='btn btn-warning'>Löschen</button>
+                        <button type='reset' name='button' value='reset' class='btn btn-warning'>Zurücksetzen</button>
                     </form>";
                 }
             }
