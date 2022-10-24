@@ -64,12 +64,12 @@ if (!isset($_SESSION['loggedin']) or !$_SESSION['loggedin']) {
         } else if (!empty($message)) {
             echo "<div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
 
-            echo '<form action="edit.php">
+            echo "<form action=\"edit.php\">
             <h1>Accounts</h1>
-            <input type="button" class="btn btn-secondary" onclick="location.pathname="accountManager/addAccount.php"" value="add Account" />
-            <input type="submit" class="btn btn-secondary" value="edit Account" />
-            <input type="button" class="btn btn-secondary" onclick="location.pathname="accountManager/deleteAccount.php"" value="delete Account" />';
-
+            <a class=\"btn btn-secondary\" href=\"addAccount.php\" role=\"button\">add Account</a>
+            <input type=\"submit\" class=\"btn btn-secondary\" value=\"edit Account\" />
+            <a class=\"btn btn-secondary\" href=\"deleteAccount.php\" role=\"button\">delete Account</a>";
+            
             $query = "SELECT * FROM account WHERE userid = ?";
             $stmt = $mysqli->prepare($query);
             $stmt->bind_param("i", $userid);
